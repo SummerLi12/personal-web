@@ -32,16 +32,29 @@ export const resumeData: ResumeData = {
   experience: [
     {
       company: "Atoms Tech",
-      role: "Full Stack Developer",
-      period: "08/2025 – Present",
-      location: "Remote, USA",
-      technologies: ["Python", "Jetson AGX", "OpenCV", "YOLO", "Docker", "GCP", "Jira", "CUDA"],
+      role: "Robotics and Systems Engineering",
+      period: "Jan 2026 - Present",
+      location: "Remote",
+      technologies: [],
       highlights: [
-        "Developed and deployed Fast API endpoints for large language model (LLM) integration, enabling advanced natural language processing features in production applications",
         "Designed and implemented an integrated robotics system combining real-time computer vision, AI inference, and robotic arm control using NVIDIA Jetson AGX.",
         "Developed real-time object detection pipelines using OpenCV and YOLO to detect, label, and track objects in a physical workspace.",
         "Integrated camera and robotic hardware with embedded software to enable hardware-driven decision making.",
         "Applied systems engineering practices using the ATOMS platform to define requirements, model system architecture, and validate end-to-end functionality."
+      ]
+    },
+    {
+      company: "Atoms Tech",
+      role: "Full Stack Engineer & Web developer",
+      period: "Aug 2025 - Dec 2025",
+      location: "Remote",
+      technologies: [],
+      highlights: [
+        "Developed and deployed Fast API endpoints for large language model (LLM) integration, enabling advanced natural language processing features in production applications",
+        "Gathered and analyzed front-end requirements using Node.js, transferred them into robust Python backend solutions to improve data flow and system functionality.",
+        "Collaborated with cross-functional teams to deliver full-stack solutions, integrating Supabase",
+        "Helped remove the restriction to be able to upload for more file types. And created MCP structure for feeding prompt and getting the analysis result",
+        "Worked on removing third party logic and use our analysis tools"
       ]
     }
   ],
@@ -75,7 +88,7 @@ export const resumeData: ResumeData = {
       description: "An end to end data driven performance analysis pipeline, running large scale experiments across multiple system configurations to collect efficiency metrics.",
       technologies: ["Python", "Machine Learning", "Systems", "CAD toolchain"],
       impact: "Trained ML models to predict performance and efficiency metrics, reducing the need for expensive full run evaluations.",
-      imageUrl: "https://images.unsplash.com/photo-1551288049-bbbda5366391?q=80&w=800&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop",
       details: [
         "Automated experiment sweeps by varying key parameters, generating 70+ data points and consolidating results into a structured dataset.",
         "Trained and evaluated machine learning models to predict performance and efficiency metrics, reducing the need for expensive full run evaluations.",

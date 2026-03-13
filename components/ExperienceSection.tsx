@@ -8,8 +8,8 @@ const ExperienceSection: React.FC<{ id: string }> = ({ id }) => {
     <section id={id} className="py-20 px-6 bg-slate-50">
       <div className="max-w-4xl mx-auto">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold mb-4">Professional Journey</h2>
-          <p className="text-slate-500">A timeline of my career growth and contributions.</p>
+          <h2 className="text-3xl font-bold mb-4">Professional Experiences</h2>
+          <p className="text-slate-500">A timeline of the career growth and contributions.</p>
         </div>
 
         <div className="space-y-8">

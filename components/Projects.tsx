@@ -1,15 +1,24 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { resumeData } from '../data/resumeData';
 import { ExternalLink, Play } from 'lucide-react';
 
 const Projects: React.FC<{ id: string }> = ({ id }) => {
+  const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
+
+  const toggleProjectTags = (projectId: string) => {
+    setExpandedProjects((prev) => ({
+      ...prev,
+      [projectId]: !prev[projectId],
+    }));
+  };
+
   return (
     <section id={id} className="py-20 px-6 max-w-7xl mx-auto">
       <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h2 className="text-3xl font-bold mb-4">Featured Projects</h2>
-          <p className="text-slate-500 max-w-xl">Impactful applications that demonstrate my technical skills and problem-solving abilities.</p>
+          <h2 className="text-3xl font-bold mb-4">Projects</h2>
+          <p className="text-slate-500 whitespace-nowrap">Applications that demonstrate my technical skills and problem-solving abilities.</p>
         </div>
       </div>
 
@@ -55,21 +64,32 @@ const Projects: React.FC<{ id: string }> = ({ id }) => {
               </div>
               <p className="text-slate-600 text-sm leading-relaxed flex-1">
                 {project.description}
+                {project.title.toLowerCase().includes("sweet ninja") && (
+                  <span className="block mt-2 text-xs font-semibold text-indigo-600">
+                    Note: Camera access is required to use this demo.
+                  </span>
+                )}
               </p>
               <div className="pt-2">
                 <p className="text-xs font-bold text-indigo-600 uppercase tracking-wider mb-1">Impact</p>
-                <p className="text-sm text-slate-500 line-clamp-2">{project.impact}</p>
+                <p className="text-sm text-slate-500">{project.impact}</p>
               </div>
               <div className="flex flex-wrap gap-2 pt-2">
-                {project.technologies.slice(0, 4).map((tech, idx) => (
+                {(expandedProjects[project.id] ? project.technologies : project.technologies.slice(0, 5)).map((tech, idx) => (
                   <span key={idx} className="text-[10px] font-bold px-2 py-1 bg-slate-100 rounded-md text-slate-500 uppercase">
                     {tech}
                   </span>
                 ))}
-                {project.technologies.length > 4 && (
-                  <span className="text-[10px] font-bold px-2 py-1 bg-slate-50 rounded-md text-slate-400 uppercase">
-                    +{project.technologies.length - 4} more
-                  </span>
+                {project.technologies.length > 5 && (
+                  <button
+                    type="button"
+                    onClick={() => toggleProjectTags(project.id)}
+                    className="text-[10px] font-bold px-2 py-1 bg-slate-50 rounded-md text-slate-400 uppercase hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                  >
+                    {expandedProjects[project.id]
+                      ? "Show less"
+                      : `+${project.technologies.length - 5} more`}
+                  </button>
                 )}
               </div>
             </div>

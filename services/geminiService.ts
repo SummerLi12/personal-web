@@ -2,7 +2,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { resumeData } from "../data/resumeData";
 
-const API_KEY = process.env.API_KEY || "";
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
 
 export async function getChatResponse(userMessage: string, history: { role: 'user' | 'model', parts: { text: string }[] }[]) {
   if (!API_KEY) {

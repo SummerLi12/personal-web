@@ -2,14 +2,46 @@
 import React, { useState } from 'react';
 import { Mail, MessageSquare, Send, CheckCircle2 } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
+import supabase from '../services/supabase';
 
 const Contact: React.FC<{ id: string }> = ({ id }) => {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [formValues, setFormValues] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
-    setTimeout(() => setStatus('success'), 1500);
+    setErrorMessage('');
+
+    const { error } = await supabase
+      .from('contact_messgaes')
+      .insert({
+        name: formValues.name,
+        email: formValues.email,
+        subject: formValues.subject,
+        message: formValues.message,
+        created_at: new Date().toISOString(),
+      });
+
+    if (error) {
+      setStatus('error');
+      setErrorMessage(error.message || 'Something went wrong. Please try again.');
+      return;
+    }
+
+    setStatus('success');
+    setFormValues({ name: '', email: '', subject: '', message: '' });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -61,7 +93,7 @@ const Contact: React.FC<{ id: string }> = ({ id }) => {
                 <CheckCircle2 size={40} />
               </div>
               <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
-              <p className="text-slate-500 mb-8">Thanks for reaching out. I'll get back to you within 24 hours.</p>
+              <p className="text-slate-500 mb-8">Thanks for reaching out. I'll get back to you as soon as possible.</p>
               <button 
                 onClick={() => setStatus('idle')}
                 className="text-indigo-600 font-bold hover:underline"
@@ -77,6 +109,9 @@ const Contact: React.FC<{ id: string }> = ({ id }) => {
                   <input 
                     required 
                     type="text" 
+                    name="name"
+                    value={formValues.name}
+                    onChange={handleInputChange}
                     placeholder="Your Name" 
                     className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all"
                   />
@@ -86,6 +121,9 @@ const Contact: React.FC<{ id: string }> = ({ id }) => {
                   <input 
                     required 
                     type="email" 
+                    name="email"
+                    value={formValues.email}
+                    onChange={handleInputChange}
                     placeholder="your@email.com" 
                     className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all"
                   />
@@ -96,6 +134,9 @@ const Contact: React.FC<{ id: string }> = ({ id }) => {
                 <input 
                   required 
                   type="text" 
+                  name="subject"
+                  value={formValues.subject}
+                  onChange={handleInputChange}
                   placeholder="How can Jinduo help?" 
                   className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all"
                 />
@@ -105,10 +146,16 @@ const Contact: React.FC<{ id: string }> = ({ id }) => {
                 <textarea 
                   required 
                   rows={4} 
+                  name="message"
+                  value={formValues.message}
+                  onChange={handleInputChange}
                   placeholder="Share your project ideas..." 
                   className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all resize-none"
                 ></textarea>
               </div>
+              {status === 'error' && (
+                <p className="text-sm font-semibold text-red-600">{errorMessage}</p>
+              )}
               <button 
                 disabled={status === 'sending'}
                 type="submit" 
